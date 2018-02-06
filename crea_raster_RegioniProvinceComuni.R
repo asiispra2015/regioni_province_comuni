@@ -45,7 +45,7 @@ options(warn = 2,error=recover)
 
 # Alcuni parametri --------------------------------------------------------
 
-FEATURES<-c("regioni","province","comuni")[2] #scegliere 1,2,3
+FEATURES<-c("regioni","province","comuni")[3] #scegliere 1,2,3
 stopifnot(length(FEATURES)==1)
 BUFFER_SIZE<-1000 #1km, in quanto GADM va convertito in epsg 32632 in quanto gBuffer richiede dati proiettati
 "../../../copernicus/griglia_tif_nc/griglia.tif"->GRIGLIA_RASTER
@@ -75,8 +75,6 @@ if(FEATURES=="regioni"){
   stop("Quale feature?")
 }
 
-qualeLayer<-paste0("ITA_adm",indice) 
-
 
 #griglia.tif è la versione raster della griglia shapefile (netfish) dell'ITALIA passata da Stafoggia
 tryCatch({
@@ -94,7 +92,7 @@ lineaCosta[lineaCosta!=1]<-NA
 tryCatch({
   readOGR(GADM_DSN,LAYER)
 },error=function(e){
-  stop(sprintf("Errore lettura %s",qualeLayer))
+  stop(sprintf("Errore lettura %s",LAYER))
 })->italia
 
 #il GADM ha epsg 4326
